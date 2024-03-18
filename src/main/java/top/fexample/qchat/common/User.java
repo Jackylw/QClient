@@ -3,7 +3,7 @@
  * @date 2024/3/17 16:34
  * @
  */
-package top.fexample.qclient.common;
+package top.fexample.qchat.common;
 
 import java.io.Serial;
 import java.io.Serializable;

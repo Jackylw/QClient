@@ -3,11 +3,11 @@
  * @date 2024/3/17 22:15
  * @description 该类完成用户登录验证
  */
-package top.fexample.qclient.Service;
+package top.fexample.qchat.Service;
 
-import top.fexample.qclient.common.Message;
-import top.fexample.qclient.common.MessageType;
-import top.fexample.qclient.common.User;
+import top.fexample.qchat.common.Message;
+import top.fexample.qchat.common.MessageType;
+import top.fexample.qchat.common.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -43,17 +43,35 @@ public class UserClientService {
                 clientConnectServerThread.start();
                 ManageClientConnectServerThread.addClientConnectServerThread(userId, clientConnectServerThread);
 
+                // 向服务器申请在线好友列表
+                onlineFriendList();
+
                 return true;
             } else {
                 socket.close();
             }
         } catch (IOException | ClassNotFoundException e) {
-            if (e instanceof IOException) {
-                System.out.println("连接服务器失败");
-            } else {
-                System.out.println("服务器返回信息格式错误");
-            }
+            throw new RuntimeException(e);
         }
         return false;
+    }
+
+    // 向服务器请求在线用户列表
+    public void onlineFriendList() {
+        Message message = new Message();
+        message.setSender(user.getUserId());
+        message.setMsgType(MessageType.GET_ONLINE_FRIEND);
+
+        // 发送消息到服务器
+        // 得到当前线程的socket对应的ObjectOutputStream
+        try {
+            // 从管理线程池中获取当前用户对应ClientConnectServerThread的socket
+            ClientConnectServerThread clientConnectServerThread = ManageClientConnectServerThread.getClientConnectServerThread(user.getUserId());
+            Socket socket = clientConnectServerThread.getSocket();
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

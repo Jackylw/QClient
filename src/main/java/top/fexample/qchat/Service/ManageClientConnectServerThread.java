@@ -3,7 +3,7 @@
  * @date 2024/3/17 22:45
  * @description 管理客户端连接服务器线程
  */
-package top.fexample.qclient.Service;
+package top.fexample.qchat.Service;
 
 import java.util.HashMap;
 

@@ -3,9 +3,9 @@ module top.fexample.qclient {
     requires javafx.fxml;
 
 
-    opens top.fexample.qclient to javafx.fxml;
-    opens top.fexample.qclient.controller to javafx.fxml;
-    exports top.fexample.qclient;
-    exports top.fexample.qclient.controller to javafx.fxml;
+    opens top.fexample.qchat to javafx.fxml;
+    opens top.fexample.qchat.controller to javafx.fxml;
+    exports top.fexample.qchat;
+    exports top.fexample.qchat.controller to javafx.fxml;
 
 }

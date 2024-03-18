@@ -2,19 +2,26 @@
  * @author Jacky Feng
  * @date 2024/3/17 16:53
  */
-package top.fexample.qclient.controller;
+package top.fexample.qchat.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import top.fexample.qclient.Service.UserClientService;
+import javafx.stage.Stage;
+import top.fexample.qchat.Application;
+import top.fexample.qchat.Service.UserClientService;
 
 public class LoginController {
     @FXML
     public TextField inputUserId;
     @FXML
     public PasswordField inputUserPassword;
+    public Stage loginStage;
+
+    public void setLoginStage(Stage loginStage){
+        this.loginStage = loginStage;
+    }
 
     // 用于用户的登录/注册
     private UserClientService userClientService = new UserClientService();
@@ -51,7 +58,14 @@ public class LoginController {
 
             System.out.println("登录成功");
 
-        }
+            // 显示好友列表,并隐藏登录界面
+            new FriendListController().showFriendListStage(inputUserId.getText());
+            loginStage.close();
 
+        } else {
+
+            System.out.println("登录失败");
+
+        }
     }
 }
