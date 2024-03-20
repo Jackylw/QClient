@@ -5,11 +5,11 @@
  */
 package top.fexample.qchat.Service;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ManageClientConnectServerThread {
     // Key:UserId Value:客户端连接服务器线程
-    private static HashMap<String, ClientConnectServerThread> clientConnectServerThreadHashMap = new HashMap<>();
+    private static ConcurrentHashMap<String, ClientConnectServerThread> clientConnectServerThreadHashMap = new ConcurrentHashMap<>();
 
     public static void addClientConnectServerThread(String userId, ClientConnectServerThread clientConnectServerThread) {
         clientConnectServerThreadHashMap.put(userId, clientConnectServerThread);

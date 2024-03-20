@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class UserClientService {
 
@@ -22,14 +23,17 @@ public class UserClientService {
     private Socket socket;
 
     // 根据用户id和密码到服务器验证用户是否存在
-    public boolean checkUser(String userId, String userPassword) {
+    public String checkUser(String userId, String userPassword) {
         user = new User(userId, userPassword);
         user.setUserId(userId);
         user.setUserPassword(userPassword);
 
         try {
-            socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
-
+            try {
+                socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
+            } catch (SocketException e) {
+                return MessageType.CONNECT_SERVER_TIMEOUT;
+            }
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(user);
 
@@ -43,35 +47,16 @@ public class UserClientService {
                 clientConnectServerThread.start();
                 ManageClientConnectServerThread.addClientConnectServerThread(userId, clientConnectServerThread);
 
-                // 向服务器申请在线好友列表
-                onlineFriendList();
-
-                return true;
+                return MessageType.LOGIN_SUCCESS;
             } else {
                 socket.close();
+                return MessageType.LOGIN_FAIL;
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return false;
+
     }
 
-    // 向服务器请求在线用户列表
-    public void onlineFriendList() {
-        Message message = new Message();
-        message.setSender(user.getUserId());
-        message.setMsgType(MessageType.GET_ONLINE_FRIEND);
 
-        // 发送消息到服务器
-        // 得到当前线程的socket对应的ObjectOutputStream
-        try {
-            // 从管理线程池中获取当前用户对应ClientConnectServerThread的socket
-            ClientConnectServerThread clientConnectServerThread = ManageClientConnectServerThread.getClientConnectServerThread(user.getUserId());
-            Socket socket = clientConnectServerThread.getSocket();
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(message);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
