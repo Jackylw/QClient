@@ -35,7 +35,7 @@ public class ClientConnectServerThread extends Thread {
                     // 取出在线列表,规定返回id值通过一个空格分隔
                     String[] onlineUsers = message.getContent().split(" ");
 
-                    System.out.println("收到在线列表:" + Arrays.toString(onlineUsers));
+                    System.out.println("服务器更新了当前在线列表:" + Arrays.toString(onlineUsers));
 
                 } else {
                     System.out.println("其他类型");

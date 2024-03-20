@@ -12,7 +12,7 @@
             fx:controller = "top.fexample.qchat.controller.FriendListController">
     <Accordion prefHeight = "69.0" prefWidth = "285.0">
         <panes>
-            <TitledPane minHeight = "-Infinity" text = "分组1">
+            <TitledPane minHeight = "-Infinity" text = "我的好友">
                 <ScrollPane fitToHeight = "true" fitToWidth = "true" prefHeight = "650.0">
                     <VBox spacing = "5.0" fx:id = "friendListContainer">
                     </VBox>

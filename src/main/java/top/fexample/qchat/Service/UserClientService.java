@@ -23,10 +23,11 @@ public class UserClientService {
     private Socket socket;
 
     // 根据用户id和密码到服务器验证用户是否存在
-    public String checkUser(String userId, String userPassword) {
+    public String checkUser(String userId, String userPassword,String requestType) {
         user = new User(userId, userPassword);
         user.setUserId(userId);
         user.setUserPassword(userPassword);
+        user.setRequestType(requestType);
 
         try {
             try {
@@ -55,8 +56,5 @@ public class UserClientService {
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
     }
-
-
 }

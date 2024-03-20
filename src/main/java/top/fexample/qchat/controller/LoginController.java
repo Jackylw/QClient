@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import top.fexample.qchat.Application;
 import top.fexample.qchat.Service.UserClientService;
 import top.fexample.qchat.common.MessageType;
+import top.fexample.qchat.common.UserType;
 
 public class LoginController {
     @FXML
@@ -60,7 +61,7 @@ public class LoginController {
 
         System.out.println("用户输入的账号是:" + inputUserId.getText() + "用户输入的密码是:" + inputUserPassword.getText());
 
-        switch (userClientService.checkUser(inputUserId.getText(), inputUserPassword.getText())) {
+        switch (userClientService.checkUser(inputUserId.getText(), inputUserPassword.getText(), UserType.LOGIN)) {
             case MessageType.LOGIN_SUCCESS:
                 showPrompt(MessageType.LOGIN_SUCCESS);
 
