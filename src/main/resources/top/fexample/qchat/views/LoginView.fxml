@@ -11,47 +11,87 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="280.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.fexample.qchat.controller.LoginController">
+<AnchorPane prefHeight="309.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.fexample.qchat.controller.LoginController">
     <!--  顶部  -->
     <ImageView fitHeight="50.0" fitWidth="360.0" preserveRatio="true">
         <Image url="@../images/tou.gif" />
     </ImageView>
     <!--  中部  -->
-    <TabPane layoutY="50.0" prefHeight="230.0" prefWidth="360.0" tabClosingPolicy="UNAVAILABLE">
-        <Tab text="QQ号码">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="360.0">
-                <TextField fx:id="inputUserId" layoutX="61.0" layoutY="14.0" prefHeight="30.0" prefWidth="260.0" AnchorPane.leftAnchor="61.0">
+    <TabPane layoutY="50.0" prefHeight="300.0" prefWidth="360.0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="账号登录">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="360.0">
+                <TextField fx:id="inputUserId" layoutX="61.0" layoutY="29.0" prefHeight="30.0" prefWidth="260.0" AnchorPane.leftAnchor="61.0">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </TextField>
-                <PasswordField fx:id="inputUserPassword" layoutX="61.0" layoutY="61.0" prefHeight="30.0" prefWidth="260.0" />
-                <Label layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="30.0" text="账号">
+                <PasswordField fx:id="inputUserPassword" layoutX="61.0" layoutY="106.0" prefHeight="30.0" prefWidth="260.0" />
+                <Label layoutX="14.0" layoutY="29.0" prefHeight="30.0" prefWidth="30.0" text="账号">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Label layoutX="14.0" layoutY="61.0" prefHeight="30.0" prefWidth="30.0" text="密码">
+                <Label layoutX="14.0" layoutY="106.0" prefHeight="30.0" prefWidth="30.0" text="密码">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <!--  底部  -->
-                <Button layoutX="250.0" layoutY="126.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="注册" textAlignment="JUSTIFY" AnchorPane.rightAnchor="39.60000000000002">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                </Button>
-                <Button layoutX="61.0" layoutY="126.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="30.0" prefWidth="69.0" text="登录" textAlignment="JUSTIFY" AnchorPane.leftAnchor="61.0">
+                <Button layoutX="80.0" layoutY="180.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="30.0" prefWidth="200.0" text="登录" textAlignment="JUSTIFY" AnchorPane.leftAnchor="80.0">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Button>
             </AnchorPane>
         </Tab>
-        <Tab text="手机登录">
+        <Tab text="用户注册">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <AnchorPane layoutY="1.0" prefHeight="127.0" prefWidth="360.0" />
+                <TextField fx:id="regUserId" layoutX="85.0" layoutY="14.0" prefHeight="30.0" prefWidth="260.0" AnchorPane.topAnchor="15.0">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </TextField>
+                <PasswordField fx:id="regPassword" layoutX="85.0" layoutY="61.0" prefHeight="30.0" prefWidth="260.0" AnchorPane.topAnchor="60.0" />
+                <Label layoutX="15.0" layoutY="15.0" prefHeight="30.0" prefWidth="62.0" text="注册账号">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="16.0" layoutY="60.0" prefHeight="30.0" prefWidth="60.0" text="密码">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <Button layoutX="53.0" layoutY="233.0" mnemonicParsing="false" onAction="#onRegButtonClick" prefHeight="30.0" prefWidth="254.0" text="注册" textAlignment="JUSTIFY">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Button>
+                <Label layoutX="16.0" layoutY="105.0" prefHeight="30.0" prefWidth="60.0" text="确认密码">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="regCheckPassword" layoutX="85.0" layoutY="104.0" prefHeight="30.0" prefWidth="260.0" AnchorPane.topAnchor="105.0" />
+            <Label layoutX="16.0" layoutY="150.0" prefHeight="30.0" prefWidth="60.0" text="安全问题">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="16.0" layoutY="195.0" prefHeight="30.0" prefWidth="60.0" text="安全密码">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="regUserAnswer" layoutX="85.0" layoutY="195.0" prefHeight="30.0" prefWidth="260.0" AnchorPane.topAnchor="195.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="regUserQuestion" layoutX="85.0" layoutY="154.0" prefHeight="30.0" prefWidth="260.0" AnchorPane.topAnchor="150.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
             </AnchorPane>
         </Tab>
     </TabPane>

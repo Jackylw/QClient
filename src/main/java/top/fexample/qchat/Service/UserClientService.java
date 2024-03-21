@@ -23,7 +23,7 @@ public class UserClientService {
     private Socket socket;
 
     // 根据用户id和密码到服务器验证用户是否存在
-    public String checkUser(String userId, String userPassword,String requestType) {
+    public String checkUser(String userId, String userPassword, String requestType) {
         user = new User(userId, userPassword);
         user.setUserId(userId);
         user.setUserPassword(userPassword);
@@ -52,6 +52,44 @@ public class UserClientService {
             } else {
                 socket.close();
                 return MessageType.LOGIN_FAIL;
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 用户注册
+    public String registerUser(String userId, String userPassword, String regUserQuestion, String regUserAnswer, String requestType){
+        user = new User(userId, userPassword);
+        user.setUserId(userId);
+        user.setUserPassword(userPassword);
+        user.setRequestType(requestType);
+        user.setSecurityQuestion(regUserQuestion);
+        user.setSecurityAnswer(regUserAnswer);
+
+        try {
+            try {
+                socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
+            } catch (SocketException e) {
+                return MessageType.CONNECT_SERVER_TIMEOUT;
+            }
+
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(user);
+
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            Message message = (Message) ois.readObject();
+
+            // 每一次注册都会创建一个新的socket,进行完一次注册后就关闭socket
+            if (message.getMsgType().equals(MessageType.REGISTER_SUCCESS)) {
+                socket.close();
+                return MessageType.REGISTER_SUCCESS;
+            } else if (message.getMsgType().equals(MessageType.REGISTER_EXIST)) {
+                socket.close();
+                return MessageType.REGISTER_EXIST;
+            } else {
+                socket.close();
+                return MessageType.REGISTER_ERROR;
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
