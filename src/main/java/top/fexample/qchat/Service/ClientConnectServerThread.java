@@ -31,14 +31,23 @@ public class ClientConnectServerThread extends Thread {
                 Message message = (Message) ois.readObject();
 
                 // 判断类型,处理消息
-                if (message.getMsgType().equals(MessageType.RECEIVE_ONLINE_FRIEND)) {
-                    // 取出在线列表,规定返回id值通过一个空格分隔
-                    String[] onlineUsers = message.getContent().split(" ");
+                switch (message.getMsgType()) {
+                    case MessageType.RECEIVE_ONLINE_FRIEND:
+                        // 取出在线列表,规定返回id值通过一个空格分隔
+                        String[] onlineUsers = message.getContent().split(" ");
 
-                    System.out.println("服务器更新了当前在线列表:" + Arrays.toString(onlineUsers));
+                        System.out.println("服务器更新了当前在线列表:" + Arrays.toString(onlineUsers));
 
-                } else {
-                    System.out.println("其他类型");
+                        break;
+                    case MessageType.RECEIVE_FRIEND_REQUEST:
+                        String[] friendList = message.getContent().split(" ");
+
+                        System.out.println("服务器更新了您的当前好友列表:" + Arrays.toString(friendList));
+
+                        break;
+                    default:
+                        System.out.println("其他类型");
+                        break;
                 }
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);

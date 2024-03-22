@@ -36,7 +36,7 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Button layoutX="80.0" layoutY="180.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="30.0" prefWidth="200.0" text="登录" textAlignment="JUSTIFY" AnchorPane.leftAnchor="80.0">
+                <Button fx:id="loginButton" layoutX="80.0" layoutY="180.0" mnemonicParsing="false" onAction="#onLoginButtonClick" prefHeight="30.0" prefWidth="200.0" text="登录" textAlignment="JUSTIFY" AnchorPane.leftAnchor="80.0">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -61,7 +61,7 @@
                         <Font size="15.0" />
                     </font>
                 </Label>
-                <Button layoutX="53.0" layoutY="233.0" mnemonicParsing="false" onAction="#onRegButtonClick" prefHeight="30.0" prefWidth="254.0" text="注册" textAlignment="JUSTIFY">
+                <Button fx:id="regButton" layoutX="53.0" layoutY="233.0" mnemonicParsing="false" onAction="#onRegButtonClick" prefHeight="30.0" prefWidth="254.0" text="注册" textAlignment="JUSTIFY">
                     <font>
                         <Font size="15.0" />
                     </font>
