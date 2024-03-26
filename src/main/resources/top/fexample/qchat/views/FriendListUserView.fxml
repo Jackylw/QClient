@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns = "http://javafx.com/javafx"
+            xmlns:fx = "http://javafx.com/fxml"
+            fx:controller = "top.fexample.qchat.controller.FriendListUserController"
+            prefHeight = "40.0" prefWidth = "285.0" stylesheets = "@../css/FriendListUser.css">
+    <HBox spacing = "5.0" prefHeight = "40.0" prefWidth = "285.0" styleClass = "hbox-background">
+        <ImageView fx:id="imageHead" fitWidth = "40.0" pickOnBounds = "true" preserveRatio = "true">
+            <Image url = "@../images/mm.jpg" />
+        </ImageView>
+        <VBox spacing = "5">
+            <Label fx:id = "accountIdLabel" />
+            <Label fx:id = "statusLabel" />
+        </VBox>
+    </HBox>
+</AnchorPane>

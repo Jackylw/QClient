@@ -44,7 +44,7 @@ public class UserClientService {
             if (message.getMsgType().equals(MessageType.LOGIN_SUCCESS)) {
 
                 // 创建和服务器端保持通讯的线程,并添加到管理线程池中
-                ClientConnectServerThread clientConnectServerThread = new ClientConnectServerThread(socket);
+                ClientConnectServerThread clientConnectServerThread = new ClientConnectServerThread(socket, userId);
                 clientConnectServerThread.start();
                 ManageClientConnectServerThread.addClientConnectServerThread(userId, clientConnectServerThread);
 
@@ -59,7 +59,7 @@ public class UserClientService {
     }
 
     // 用户注册
-    public String registerUser(String userId, String userPassword, String regUserQuestion, String regUserAnswer, String requestType){
+    public String registerUser(String userId, String userPassword, String regUserQuestion, String regUserAnswer, String requestType) {
         user = new User(userId, userPassword);
         user.setUserId(userId);
         user.setUserPassword(userPassword);

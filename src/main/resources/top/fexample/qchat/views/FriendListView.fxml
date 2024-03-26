@@ -9,7 +9,7 @@
 <AnchorPane maxHeight = "-Infinity" maxWidth = "-Infinity" minHeight = "-Infinity" minWidth = "-Infinity"
             prefHeight = "650.0" prefWidth = "285.0"
             xmlns = "http://javafx.com/javafx/21" xmlns:fx = "http://javafx.com/fxml/1"
-            fx:controller = "top.fexample.qchat.controller.FriendListController">
+            fx:controller = "top.fexample.qchat.controller.FriendListController" stylesheets = "@../css/FriendList.css">
     <Accordion prefHeight = "69.0" prefWidth = "285.0">
         <panes>
             <TitledPane minHeight = "-Infinity" text = "我的好友">

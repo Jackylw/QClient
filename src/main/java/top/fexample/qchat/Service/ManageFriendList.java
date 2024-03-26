@@ -19,7 +19,7 @@ public class ManageFriendList {
         friendList.remove(userId);
     }
 
-    public static FriendListController getFriendList(String userId) {
+    public static FriendListController getFriendListController(String userId) {
         return friendList.get(userId);
     }
 }

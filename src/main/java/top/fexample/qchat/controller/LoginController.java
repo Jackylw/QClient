@@ -110,10 +110,11 @@ public class LoginController {
                 System.out.println("登录成功");
 
                 // 显示好友列表,并隐藏登录界面
+                loginStage.close();
+
                 FriendListController friendListController = new FriendListController();
                 friendListController.setUserId(inputUserId.getText());
                 friendListController.showFriendListStage();
-                loginStage.close();
 
                 // 将好友列表添加到管理列表中
                 ManageFriendList.addFriendList(inputUserId.getText(), friendListController);
@@ -132,6 +133,8 @@ public class LoginController {
 
                 System.out.println("连接服务器超时");
 
+                break;
+            default:
                 break;
         }
     }
