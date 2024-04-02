@@ -6,6 +6,8 @@ package top.fexample.qchat.common;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Message implements Serializable {
     @Serial
@@ -46,8 +48,11 @@ public class Message implements Serializable {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTime() {
+        // 获取当前时间
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss");
+        this.time = now.format(formatter);
     }
 
     public String getMsgType() {

@@ -1,4 +1,0 @@
-.grayscale-image {
-    -fx-opacity: 0.3; /* 设置组件的整体透明度为30% */
-    -fx-background-color: rgba(0, 0, 0, 0.5); /* 设置一个半透明灰色背景 */
-}

@@ -6,15 +6,18 @@ package top.fexample.qchat.Service;
 
 import top.fexample.qchat.common.Message;
 import top.fexample.qchat.common.MessageType;
+import top.fexample.qchat.controller.ChatController;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientConnectServerThread extends Thread {
     // 线程持有的socket
     private Socket socket;
     private String userId;
-
     public ClientConnectServerThread(Socket socket, String userId) {
         this.socket = socket;
         this.userId = userId;
@@ -38,6 +41,18 @@ public class ClientConnectServerThread extends Thread {
                     case MessageType.RECEIVE_FRIEND_REQUEST:
                         String[] friendList = message.getContent().split(" ");
                         ManageUserDisplay.addFriendList(userId, friendList);
+                        break;
+                    case MessageType.COMMON_MESSAGE:
+                        ChatController chatController = ManageChatView.getChatController(message.getSender());
+
+                        // 如果聊天窗口已打开,则将消息传递给chatController
+                        if (ManageChatView.getChatStage(message.getReceiver())!= null) {
+                            chatController.setMessage(message);
+                        } else {
+                            // 接收者视角的发送者,即接收者的好友
+                            System.out.println("用户未打开" + message.getSender() + "的聊天窗口,缓存消息");
+                            MessageBuffer.addBufferedMessage(message.getSender(), message);
+                        }
                         break;
                     default:
                         System.out.println("其他类型");

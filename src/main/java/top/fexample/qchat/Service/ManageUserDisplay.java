@@ -5,6 +5,8 @@
  */
 package top.fexample.qchat.Service;
 
+import top.fexample.qchat.controller.FriendListController;
+
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,12 +33,12 @@ public class ManageUserDisplay {
         friendListMap.remove(userId);
     }
 
-    public static String[] getOnlineUserList(String userId) throws InterruptedException {
+    public static String[] getOnlineUserList(String userId) {
         System.out.println(userId + "获取当前在线用户列表:" + Arrays.toString(onlineUserMap.get(userId)));
         return onlineUserMap.get(userId);
     }
 
-    public static String[] getFriendList(String userId) throws InterruptedException {
+    public static String[] getFriendList(String userId) {
         System.out.println(userId + "获取当前好友列表:" + Arrays.toString(friendListMap.get(userId)));
         return friendListMap.get(userId);
     }

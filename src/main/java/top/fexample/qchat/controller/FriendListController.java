@@ -12,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -51,7 +50,7 @@ public class FriendListController {
         }
 
         String[] friendList = ManageUserDisplay.getFriendList(userId);
-        String[] onlineUserList = ManageUserDisplay.getOnlineUserList(userId);
+//        String[] onlineUserList = ManageUserDisplay.getOnlineUserList(userId);
 
         for (String friend : friendList) {
             // 加载好友列表用户的视图
@@ -61,13 +60,24 @@ public class FriendListController {
                 friendListNodes.put(friend, friendNode);
 
                 FriendListUserController friendListUserController = loader.getController();
-                friendListUserController.setUserController(friend, "offline");
+                friendListUserController.setUserController(friend, "好友");
 
                 // 双击点击事件
                 friendNode.setOnMouseClicked(event -> {
                     if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
-                        // todo 聊天框的显示
+                        //聊天框的显示
                         System.out.println("双击了" + friend);
+
+                        // 调用ChatController的showChatStage方法
+                        FXMLLoader loader2 = new FXMLLoader(Application.class.getResource("views/chatView.fxml"));
+                        try {
+                            Parent chatView = loader2.load();
+                            ChatController chatController = loader2.getController();
+                            Label statusLabel = (Label) friendNode.lookup("#statusLabel");
+                            chatController.showChatStage(userId, friend, statusLabel.getText(), chatView);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
 

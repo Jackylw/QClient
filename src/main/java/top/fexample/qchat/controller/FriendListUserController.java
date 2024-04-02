@@ -21,11 +21,5 @@ public class FriendListUserController {
     public void setUserController(String accountId, String status) {
         accountIdLabel.setText(accountId);
         statusLabel.setText(status);
-
-        // 更新在线好友头像
-        if (!"online".equals(status)) {
-            // 30%透明度和灰色
-            imageHead.setStyle("-fx-opacity: 0.3;-fx-background-color: rgba(0, 0, 0, 0.5)");
-        }
     }
 }
