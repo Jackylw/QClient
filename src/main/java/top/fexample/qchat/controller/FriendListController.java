@@ -10,19 +10,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import top.fexample.qchat.Application;
-import top.fexample.qchat.Service.ClientConnectServerThread;
-import top.fexample.qchat.Service.ManageClientConnectServerThread;
-import top.fexample.qchat.Service.ManageFriendList;
-import top.fexample.qchat.Service.ManageUserDisplay;
+import top.fexample.qchat.Service.*;
 import top.fexample.qchat.common.Message;
 import top.fexample.qchat.common.MessageType;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -33,6 +30,12 @@ import java.util.concurrent.TimeUnit;
 public class FriendListController {
     @FXML
     public VBox friendListContainer;
+    @FXML
+    public Button addUser;
+    @FXML
+    public Button delUser;
+    @FXML
+    public Button refresh;
     private String userId;
     // 存储每个好友节点，便于后续操作此节点
     public static final ConcurrentHashMap<String, Node> friendListNodes = new ConcurrentHashMap<>();
@@ -43,6 +46,7 @@ public class FriendListController {
 
     // 更新一次好友列表
     public void updateList(String userId) throws InterruptedException {
+        friendListContainer.getChildren().clear();
         // 等待数据准备就绪
         while (ManageUserDisplay.getFriendList(userId) == null || ManageUserDisplay.getOnlineUserList(userId) == null) {
             // 等待数据准备就绪，可以适当设置超时时间
@@ -66,7 +70,7 @@ public class FriendListController {
                 friendNode.setOnMouseClicked(event -> {
                     if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
                         //聊天框的显示
-                        System.out.println("双击了" + friend);
+                        System.out.println(userId + "双击了" + friend);
 
                         // 调用ChatController的showChatStage方法
                         FXMLLoader loader2 = new FXMLLoader(Application.class.getResource("views/chatView.fxml"));
@@ -121,6 +125,24 @@ public class FriendListController {
                 ManageFriendList.removeFriendList(userId);
                 System.exit(0);
             });
+
+            // 添加好友按钮的监听事件
+            friendListController.addUser.setOnAction(event -> {
+                try {
+                    onAddUser();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            // 删除好友按钮的监听事件
+            friendListController.delUser.setOnAction(event -> {
+
+            });
+            // 刷新好友列表按钮的监听事件
+            friendListController.refresh.setOnAction(event -> {
+                friendListStage.close();
+                showFriendListStage();
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -159,5 +181,17 @@ public class FriendListController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void onAddUser() throws IOException {
+        AddUserController addUserController = new AddUserController();
+        addUserController.setUserId(userId);
+        addUserController.showAddStage();
+        System.out.println(userId + "点击了添加好友按钮");
+        ManageAddUserController.addAddUserController(userId, addUserController);
+    }
+
+    public void onDelUser() {
+
     }
 }

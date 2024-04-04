@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ManageChatView {
-    public static final Map<String, Stage> openChatStages = new HashMap<>();
-    public static final Map<String, ChatController> chatControllers = new HashMap<>();
+    public static Map<String, Stage> openChatStages = new HashMap<>();
+    public static Map<String, ChatController> chatControllers = new HashMap<>();
 
     // 加入
     public static void addChatStage(String receiverId, Stage chatStage) {
