@@ -20,6 +20,7 @@ import top.fexample.qchat.Application;
 import top.fexample.qchat.Service.*;
 import top.fexample.qchat.common.Message;
 import top.fexample.qchat.common.MessageType;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -57,37 +58,38 @@ public class FriendListController {
 //        String[] onlineUserList = ManageUserDisplay.getOnlineUserList(userId);
 
         for (String friend : friendList) {
-            // 加载好友列表用户的视图
-            FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/FriendListUserView.fxml"));
-            try {
-                Node friendNode = loader.load();
-                friendListNodes.put(friend, friendNode);
+            if (!friend.isEmpty()) {
+                // 加载好友列表用户的视图
+                FXMLLoader loader = new FXMLLoader(Application.class.getResource("views/FriendListUserView.fxml"));
+                try {
+                    Node friendNode = loader.load();
+                    friendListNodes.put(friend, friendNode);
 
-                FriendListUserController friendListUserController = loader.getController();
-                friendListUserController.setUserController(friend, "好友");
+                    FriendListUserController friendListUserController = loader.getController();
+                    friendListUserController.setUserController(friend, "好友");
 
-                // 双击点击事件
-                friendNode.setOnMouseClicked(event -> {
-                    if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
-                        //聊天框的显示
-                        System.out.println(userId + "双击了" + friend);
+                    // 双击点击事件
+                    friendNode.setOnMouseClicked(event -> {
+                        if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+                            //聊天框的显示
+                            System.out.println(userId + "双击了" + friend);
 
-                        // 调用ChatController的showChatStage方法
-                        FXMLLoader loader2 = new FXMLLoader(Application.class.getResource("views/chatView.fxml"));
-                        try {
-                            Parent chatView = loader2.load();
-                            ChatController chatController = loader2.getController();
-                            Label statusLabel = (Label) friendNode.lookup("#statusLabel");
-                            chatController.showChatStage(userId, friend, statusLabel.getText(), chatView);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
+                            // 调用ChatController的showChatStage方法
+                            FXMLLoader loader2 = new FXMLLoader(Application.class.getResource("views/chatView.fxml"));
+                            try {
+                                Parent chatView = loader2.load();
+                                ChatController chatController = loader2.getController();
+                                Label statusLabel = (Label) friendNode.lookup("#statusLabel");
+                                chatController.showChatStage(userId, friend, statusLabel.getText(), chatView);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         }
-                    }
-                });
-
-                friendListContainer.getChildren().add(friendNode);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                    });
+                    friendListContainer.getChildren().add(friendNode);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
@@ -136,7 +138,11 @@ public class FriendListController {
             });
             // 删除好友按钮的监听事件
             friendListController.delUser.setOnAction(event -> {
-
+                try {
+                    onDelUser();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
             // 刷新好友列表按钮的监听事件
             friendListController.refresh.setOnAction(event -> {
@@ -191,7 +197,11 @@ public class FriendListController {
         ManageAddUserController.addAddUserController(userId, addUserController);
     }
 
-    public void onDelUser() {
-
+    public void onDelUser() throws IOException {
+        DelUserController delUserController = new DelUserController();
+        delUserController.setUserId(userId);
+        delUserController.showAddStage();
+        System.out.println(userId + "点击了删除好友按钮");
+        ManageDelUserController.delUserController(userId, delUserController);
     }
 }

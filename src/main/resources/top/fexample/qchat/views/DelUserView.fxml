@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight = "200.0" prefWidth = "300.0" xmlns = "http://javafx.com/javafx/21"
+            xmlns:fx = "http://javafx.com/fxml/1" fx:controller = "top.fexample.qchat.controller.DelUserController">
+    <Button fx:id="onDelUserId" layoutX = "83.0" layoutY = "131.0" mnemonicParsing = "false" prefHeight = "36.0"
+            prefWidth = "133.0" text = "添加" />
+    <TextField fx:id = "delUserId" layoutX = "29.0" layoutY = "43.0" prefHeight = "36.0" prefWidth = "242.0" />
+    <Label layoutX = "29.0" layoutY = "93.0" prefHeight = "24.0" prefWidth = "40.0" text = "状态：" />
+    <Label fx:id = "status" layoutX = "69.0" layoutY = "93.0" prefHeight = "24.0" prefWidth = "202.0" />
+</AnchorPane>
