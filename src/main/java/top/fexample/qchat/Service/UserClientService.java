@@ -95,4 +95,63 @@ public class UserClientService {
             throw new RuntimeException(e);
         }
     }
+
+    // 找回密码的用户查找方法
+    public Message findPassword(String userId, String requestType) {
+        user = new User(userId, "null");
+        user.setUserId(userId);
+        user.setRequestType(requestType);
+
+        try {
+            try {
+                socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
+            } catch (SocketException e) {
+                Message message = new Message();
+                message.setMsgType(MessageType.CONNECT_SERVER_TIMEOUT);
+                return message;
+            }
+
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(user);
+
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            Message message = (Message) ois.readObject();
+
+            socket.close();
+            return message;
+
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 验证并修改用户密码
+    public Message checkAndModifyPassword(String userId, String answer, String newPassword, String requestType) {
+        user = new User(userId, newPassword);
+        user.setUserId(userId);
+        user.setSecurityAnswer(answer);
+        user.setUserPassword(newPassword);
+        user.setRequestType(requestType);
+
+        try {
+            try {
+                socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
+            } catch (SocketException e) {
+                Message message = new Message();
+                message.setMsgType(MessageType.CONNECT_SERVER_TIMEOUT);
+                return message;
+            }
+
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(user);
+
+            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            Message message = (Message) ois.readObject();
+
+            socket.close();
+            return message;
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

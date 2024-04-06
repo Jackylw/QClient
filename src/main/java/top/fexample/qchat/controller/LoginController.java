@@ -4,6 +4,7 @@
  */
 package top.fexample.qchat.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import top.fexample.qchat.Service.ManageFriendList;
 import top.fexample.qchat.Service.UserClientService;
+import top.fexample.qchat.common.Message;
 import top.fexample.qchat.common.MessageType;
 import top.fexample.qchat.common.UserType;
 
@@ -38,6 +40,16 @@ public class LoginController {
     public Button regButton;
     @FXML
     public Button loginButton;
+    @FXML
+    public TextField findId;
+    @FXML
+    public TextField findId2;
+    @FXML
+    public TextField findQues;
+    @FXML
+    public TextField findAns;
+    @FXML
+    public TextField newPwd;
 
     public void setLoginStage(Stage loginStage) {
         this.loginStage = loginStage;
@@ -81,6 +93,21 @@ public class LoginController {
         regUserAnswer.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.isEmpty()) {
                 regUserAnswer.setStyle(null);
+            }
+        });
+        findId.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                findId.setStyle(null);
+            }
+        });
+        findAns.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                findAns.setStyle(null);
+            }
+        });
+        newPwd.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                newPwd.setStyle(null);
             }
         });
     }
@@ -218,5 +245,73 @@ public class LoginController {
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+    }
+
+    @FXML
+    public void find() {
+        if (findId.getText().isEmpty()) {
+            findId.setStyle("-fx-border-color: red;");
+            return;
+        }
+        Message message = userClientService.findPassword(findId.getText(), UserType.FIND);
+        switch (message.getMsgType()) {
+            case MessageType.FIND_USER_EXIST:
+                String question = message.getContent();
+                Platform.runLater(() -> {
+                    findId2.setText(findId.getText());
+                    findQues.setText(question);
+                });
+                break;
+            case MessageType.FIND_USER_NOT_EXIST:
+                Platform.runLater(() -> {
+                    findId2.setText("");
+                    findQues.setText("");
+                });
+                showPrompt(MessageType.FIND_USER_NOT_EXIST);
+                break;
+            case MessageType.CONNECT_SERVER_TIMEOUT:
+                showPrompt(MessageType.CONNECT_SERVER_TIMEOUT);
+                break;
+        }
+    }
+
+    @FXML
+    public void findBut() {
+        if (findId2.getText().isEmpty()) {
+            findId2.setStyle("-fx-border-color: red;");
+            return;
+        }
+        if (findQues.getText().isEmpty()) {
+            findQues.setStyle("-fx-border-color: red;");
+            return;
+        }
+        if (findAns.getText().isEmpty()) {
+            findAns.setStyle("-fx-border-color: red;");
+            return;
+        }
+        if (newPwd.getText().isEmpty()) {
+            newPwd.setStyle("-fx-border-color: red;");
+            return;
+        }
+        Message message = userClientService.checkAndModifyPassword(findId2.getText(), findAns.getText(), newPwd.getText(), UserType.FIND_PASSWORD);
+        switch (message.getMsgType()) {
+            case MessageType.MODIFY_PASSWORD_SUCCESS:
+                findId.clear();
+                findId2.clear();
+                findQues.clear();
+                findAns.clear();
+                newPwd.clear();
+                showPrompt(MessageType.MODIFY_PASSWORD_SUCCESS);
+                break;
+            case MessageType.MODIFY_PASSWORD_FAIL:
+                findAns.clear();
+                newPwd.clear();
+                showPrompt(MessageType.MODIFY_PASSWORD_FAIL);
+                break;
+            case MessageType.CONNECT_SERVER_TIMEOUT:
+                showPrompt(MessageType.CONNECT_SERVER_TIMEOUT);
+                break;
+        }
+
     }
 }
