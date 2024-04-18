@@ -54,7 +54,7 @@ public class ClientConnectServerThread extends Thread {
                         ChatController chatController = ManageChatView.getChatController(message.getSender());
 
                         // 如果聊天窗口已打开,则将消息传递给chatController
-                        if (ManageChatView.getChatStage(message.getReceiver()) != null) {
+                        if (ManageChatView.getChatStage(message.getSender()) != null) {
                             chatController.setMessage(message);
                         } else {
                             // 接收者视角的发送者,即接收者的好友
